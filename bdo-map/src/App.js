@@ -1,25 +1,19 @@
-import logo from './logo.svg';
+import React from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <MapContainer center={[0, 0]} zoom={11} style={{ width: '100vw', height: '100vh' }}>
+                <TileLayer
+                    url="http://localhost:3000/tiles/{z}/{x}/{y}.png"
+                    maxZoom={22}
+                />
+            </MapContainer>
+        </div>
+    );
 }
 
 export default App;
