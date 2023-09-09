@@ -6,10 +6,12 @@ import './App.css';
 function App() {
     return (
         <div className="App">
-            <MapContainer center={[0, 0]} zoom={11} style={{ width: '100vw', height: '100vh' }}>
+            <MapContainer center={[72.5, -80]} zoom={3} style={{ width: '100vw', height: '100vh' }}>
                 <TileLayer
-                    url="http://localhost:3000/tiles/{z}/{x}/{y}.png"
-                    maxZoom={22}
+                    url="http://localhost:8389/tiles/{z}/{x}/{y}.png"
+                    maxZoom={6}
+                    minZoom={3}
+                    noWrap={true}
                 />
             </MapContainer>
         </div>
