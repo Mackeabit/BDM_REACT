@@ -1,12 +1,46 @@
 import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import npcIcon from '../assets/icons/npc/npc_icon.png';
+
+// 아이콘 이미지 경로 설정
+const icon = new L.Icon({
+    iconUrl: npcIcon,
+    iconSize: [32, 32],
+});
 
 const MapComponent = () => {
     const centerPosition = [70, -80];
     const maxBounds = [
-        [-90, -180], // 왼쪽 하단 좌표
-        [190, 180]  // 오른쪽 상단 좌표
+        [-90, -180], 
+        [190, 180]  
+    ];
+
+    // 예시 NPC 데이터
+    const npcs = [
+        {
+            name: "General Vendor",
+            position: [78, -75]
+        },
+        {
+            name: "Skill Instructor",
+            position: [79, -76]
+        }
+    ];
+
+    // 예시 거점 데이터
+    const positions = [
+        {
+            name: "House 1",
+            position: [80, -80],
+            icon: "position1.png"
+        },
+        {
+            name: "House 2",
+            position: [81, -82],
+            icon: "position2.png"
+        }
     ];
 
     return (
@@ -25,6 +59,24 @@ const MapComponent = () => {
                 attribution="&copy; 검은사막 지도"
                 noWrap={true}
             />
+
+            {npcs.map((npc, index) => (
+                <Marker key={index} position={npc.position} icon={icon}>
+                    <Tooltip>{npc.name}</Tooltip>
+                </Marker>
+            ))}
+
+            {positions.map((pos, index) => {
+                const positionIcon = new L.Icon({
+                    iconUrl: `http://localhost:8389/public/icons/points/${pos.icon}`,
+                    iconSize: [32, 32],
+                });
+                return (
+                    <Marker key={index} position={pos.position} icon={positionIcon}>
+                        <Tooltip>{pos.name}</Tooltip>
+                    </Marker>
+                );
+            })}
         </MapContainer>
     );
 }
