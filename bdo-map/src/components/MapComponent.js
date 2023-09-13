@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -13,9 +13,13 @@ const icon = new L.Icon({
 const MapComponent = () => {
     const centerPosition = [70, -80];
     const maxBounds = [
-        [-90, -180], 
-        [190, 180]  
+        [-90, -180],
+        [190, 180]
     ];
+
+    // 마커 표시 상태
+    const [showNPC, setShowNPC] = useState(false);
+    const [showPosition, setShowPosition] = useState(false);
 
     // 예시 NPC 데이터
     const npcs = [
@@ -44,40 +48,49 @@ const MapComponent = () => {
     ];
 
     return (
-        <MapContainer 
-            center={centerPosition} 
-            zoom={2} 
-            minZoom={2} 
-            maxZoom={6} 
-            maxBounds={maxBounds} 
-            worldCopyJump={false}
-            bounceAtZoomLimits={false}
-            style={{ width: '100vw', height: '100vh' }}
-        >
-            <TileLayer
-                url="http://localhost:8389/tiles/{z}/{x}/{y}.png"
-                attribution="&copy; 검은사막 지도"
-                noWrap={true}
-            />
+        <div>
+            <button onClick={() => setShowNPC(!showNPC)}>
+                {showNPC ? 'Hide' : 'Show'} NPC
+            </button>
+            <button onClick={() => setShowPosition(!showPosition)}>
+                {showPosition ? 'Hide' : 'Show'} Position
+            </button>
+            
+            <MapContainer 
+                center={centerPosition} 
+                zoom={2} 
+                minZoom={2} 
+                maxZoom={6} 
+                maxBounds={maxBounds} 
+                worldCopyJump={false}
+                bounceAtZoomLimits={false}
+                style={{ width: '100vw', height: '100vh' }}
+            >
+                <TileLayer
+                    url="http://localhost:8389/tiles/{z}/{x}/{y}.png"
+                    attribution="&copy; 검은사막 지도"
+                    noWrap={true}
+                />
 
-            {npcs.map((npc, index) => (
-                <Marker key={index} position={npc.position} icon={icon}>
-                    <Tooltip>{npc.name}</Tooltip>
-                </Marker>
-            ))}
-
-            {positions.map((pos, index) => {
-                const positionIcon = new L.Icon({
-                    iconUrl: `http://localhost:8389/public/icons/points/${pos.icon}`,
-                    iconSize: [32, 32],
-                });
-                return (
-                    <Marker key={index} position={pos.position} icon={positionIcon}>
-                        <Tooltip>{pos.name}</Tooltip>
+                {showNPC && npcs.map((npc, index) => (
+                    <Marker key={index} position={npc.position} icon={icon}>
+                        <Tooltip>{npc.name}</Tooltip>
                     </Marker>
-                );
-            })}
-        </MapContainer>
+                ))}
+
+                {showPosition && positions.map((pos, index) => {
+                    const positionIcon = new L.Icon({
+                        iconUrl: `http://localhost:8389/public/icons/points/${pos.icon}`,
+                        iconSize: [32, 32],
+                    });
+                    return (
+                        <Marker key={index} position={pos.position} icon={positionIcon}>
+                            <Tooltip>{pos.name}</Tooltip>
+                        </Marker>
+                    );
+                })}
+            </MapContainer>
+        </div>
     );
 }
 
