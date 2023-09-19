@@ -1,14 +1,19 @@
-import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainPage from './components/MainPage';
+import LoginComponent from './components/LoginComponent';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <AuthProvider>
-      <div className="App">
-        <MainPage />
-      </div>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/login" element={<LoginComponent />} />
+            <Route path="/" element={<MainPage />} />
+          </Routes>
+        </div>
+      </Router>
     </AuthProvider>
   );
 }

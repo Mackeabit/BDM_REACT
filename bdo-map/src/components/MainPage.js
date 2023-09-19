@@ -1,14 +1,18 @@
-// components/MainPage.js
-
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import MapComponent from './MapComponent';
 
 const MainPage = () => {
   const { auth, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+  };
+
+  const goToLogin = () => {
+    navigate('/login');
   };
 
   return (
@@ -24,7 +28,7 @@ const MainPage = () => {
           <button onClick={handleLogout}>로그아웃</button>
         </div>
       ) : (
-        <button>로그인</button>
+        <button onClick={goToLogin}>로그인</button>
       )}
 
       <MapComponent />
