@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';  // Google 로그인 컴포넌트를 위한 import
 
 const LoginComponent = () => {
@@ -60,6 +61,7 @@ const LoginComponent = () => {
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
       />
+      <Link to="/register">회원가입</Link>
     </div>
   );
 };
