@@ -8,21 +8,30 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
-    token: null,
-    role: null
+    isAuthenticated: false,  // <-- 추가된 부분
+    user: {
+      token: null,
+      role: null
+    }
   });
 
   const setUserInfo = (token, role) => {
     setAuth({
-      token,
-      role
+      isAuthenticated: true,  // <-- 추가된 부분
+      user: {
+        token,
+        role
+      }
     });
   };
 
   const logout = () => {
     setAuth({
-      token: null,
-      role: null
+      isAuthenticated: false,  // <-- 추가된 부분
+      user: {
+        token: null,
+        role: null
+      }
     });
   };
 
