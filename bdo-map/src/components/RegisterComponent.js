@@ -25,7 +25,7 @@ const RegisterComponent = () => {
     }
 
     try {
-      await axios.post('http://localhost:8389/api/users/register', {
+      await axios.post('http://localhost:8389/api/users/signup', {
         username,
         password,
       });

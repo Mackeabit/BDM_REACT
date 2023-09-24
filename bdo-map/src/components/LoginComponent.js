@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';  // Google 로그인 컴포넌트를 위한 import
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const LoginComponent = () => {
   const { setUserInfo } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (event) => {
+    event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+    
     if (!username || !password) {
       alert('사용자 이름과 비밀번호를 입력하세요.');
       return;
@@ -35,32 +37,39 @@ const LoginComponent = () => {
     }
   };
 
-  const responseGoogle = (response) => {
-    // TODO: Google token을 서버에 전송하여 검증 및 사용자 로그인 처리
-    console.log(response);
+
+
+  // GoogleLogin 버튼의 클릭 이벤트 처리
+  const handleGoogleLogin = async () => {
+    window.location.href = 'http://localhost:8389/api/users/google/login'; // 서버로 로그인 요청
   };
+
 
   return (
     <div>
-      <input 
-        type="text" 
-        placeholder="Username" 
-        value={username} 
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input 
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>로그인</button>
-      <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}  // 실제 Google Client ID로 교체 필요
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-      />
+      <form onSubmit={handleLogin}>
+        <input 
+            type="text" 
+            placeholder="Username" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+        />
+        <input 
+            type="password" 
+            placeholder="Password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+        />
+        <button type="submit">로그인</button>
+      </form>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+        <button onClick={handleGoogleLogin}>
+            Login with Google
+        </button>
+      </GoogleOAuthProvider>
+
       <Link to="/register">회원가입</Link>
     </div>
   );
