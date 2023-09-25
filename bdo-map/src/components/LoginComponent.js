@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const LoginComponent = () => {
-  const { setUserInfo } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
@@ -21,12 +20,14 @@ const LoginComponent = () => {
       const response = await axios.post('http://localhost:8389/api/users/login', {
         username,
         password
+      },{
+        withCredentials: true // 크로스 오리진 요청에 쿠키 포함
       });
 
-      if (response.data.token) {
-        const role = response.data.role || 'user';
-        setUserInfo(response.data.token, role);
+      if (response.data.user) {
+
         alert('로그인 성공');
+        navigate("/");
       } else {
         alert('로그인 실패: ' + response.data.message);
       }
