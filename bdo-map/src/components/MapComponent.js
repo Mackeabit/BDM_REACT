@@ -86,7 +86,7 @@ const MapComponent = () => {
         maxZoom={6} 
         maxBounds={maxBounds}
         style={{ width: '100vw', height: '100vh' }}
-        onClick={handleMapClick}
+        eventHandlers={{ click: handleMapClick }}
       >
         <TileLayer
           url="http://localhost:8389/tiles/{z}/{x}/{y}.png"
