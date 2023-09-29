@@ -1,6 +1,5 @@
-// MapComponent.js
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -20,9 +19,6 @@ const MapComponent = () => {
 
   const [npcs, setNpcs] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [addMode, setAddMode] = useState(false);
-  const [tempMarker, setTempMarker] = useState(null);
-  const [markerName, setMarkerName] = useState('');
 
   const fetchNpcs = async () => {
     try {
@@ -42,36 +38,8 @@ const MapComponent = () => {
     }
   };
 
-  const handleMapClick = (e) => {
-    if (addMode) {
-      setTempMarker(e.latlng);
-    }
-  };
-
-  const handleAddMarker = async () => {
-    if (markerName.trim() !== '') {
-      const newMarker = {
-        name: markerName,
-        position: [tempMarker.lat, tempMarker.lng]
-      };
-
-      // API call to save the new marker to the server
-      try {
-        const response = await axios.post('http://localhost:8389/api/markers', newMarker);
-        setLocations([...locations, response.data]);
-        setTempMarker(null);
-        setAddMode(false);
-      } catch (error) {
-        console.error("Failed to save marker:", error);
-      }
-    }
-  };
-
   return (
     <div>
-      <button onClick={() => setAddMode(!addMode)}>
-        {addMode ? 'Cancel Add Marker' : 'Add Marker'}
-      </button>
       <button onClick={fetchNpcs}>
         Show NPCs
       </button>
@@ -86,7 +54,6 @@ const MapComponent = () => {
         maxZoom={6} 
         maxBounds={maxBounds}
         style={{ width: '100vw', height: '100vh' }}
-        eventHandlers={{ click: handleMapClick }}
       >
         <TileLayer
           url="http://localhost:8389/tiles/{z}/{x}/{y}.png"
@@ -105,22 +72,6 @@ const MapComponent = () => {
             <Tooltip>{location.name}</Tooltip>
           </Marker>
         ))}
-
-        {tempMarker && (
-          <Marker position={tempMarker}>
-            <Popup>
-              <div>
-                <input 
-                  type="text" 
-                  placeholder="Enter marker name" 
-                  value={markerName} 
-                  onChange={(e) => setMarkerName(e.target.value)}
-                />
-                <button onClick={handleAddMarker}>Add</button>
-              </div>
-            </Popup>
-          </Marker>
-        )}
       </MapContainer>
     </div>
   );
