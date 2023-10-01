@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import axios from 'axios';  // 서버에 요청을 보내기 위한 라이브러리
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -9,7 +9,6 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  console.log("auth");
   const [auth, setAuth] = useState({
     isAuthenticated: false,
     user: {
@@ -19,25 +18,25 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  useEffect(() => {
-    // 서버에 인증 상태 확인을 요청
-    axios.get('/api/auth/status', {
-      headers: {
-        'Authorization': `${Cookies.get('auth_token')}`
-      }
-    })
-    .then(response => {
+  // 인증 상태 체크 함수 분리
+  const checkAuthStatus = async () => {
+    try {
+      const response = await axios.get('/api/auth/status', {
+        headers: {
+          'Authorization': `${Cookies.get('auth_token')}`
+        }
+      });
+
       if (response.data.isAuthenticated) {
         setAuth({
           isAuthenticated: true,
           user: {
-            token: Cookies.get('auth_token'),  // 토큰은 여기서만 직접 가져옵니다.
+            token: Cookies.get('auth_token'),
             role: response.data.role,
             name: response.data.username
           }
         });
       } else {
-        // 만약 인증되지 않은 상태라면 auth 상태를 초기화합니다.
         setAuth({
           isAuthenticated: false,
           user: {
@@ -47,8 +46,7 @@ export const AuthProvider = ({ children }) => {
           }
         });
       }
-    })
-    .catch(error => {
+    } catch (error) {
       console.error('Authentication status check failed', error);
       setAuth({
         isAuthenticated: false,
@@ -58,7 +56,11 @@ export const AuthProvider = ({ children }) => {
           name: null
         }
       });
-    });
+    }
+  };
+
+  useEffect(() => {
+    checkAuthStatus();  // 컴포넌트 마운트 시 인증 상태 체크
   }, []);
 
   const logout = () => {
@@ -74,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, logout }}>
+    <AuthContext.Provider value={{ auth, logout, checkAuthStatus }}>
       {children}
     </AuthContext.Provider>
   );

@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { useAuth } from '../context/AuthContext';  // AuthContext를 사용하기 위해 가져옵니다.
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // AuthContext에서 필요한 값을 가져옵니다.
+  const { checkAuthStatus } = useAuth();
+
   const handleLogin = async (event) => {
-    event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+    event.preventDefault();
     
     if (!username || !password) {
       alert('사용자 이름과 비밀번호를 입력하세요.');
@@ -21,30 +25,29 @@ const LoginComponent = () => {
         username,
         password
       },{
-        withCredentials: true // 크로스 오리진 요청에 쿠키 포함
+        withCredentials: true
       });
 
       if (response.data.user) {
-
         alert('로그인 성공');
+        
+        // 로그인 성공 후에 인증 상태 체크 함수를 호출합니다.
+        checkAuthStatus();
+        
         navigate("/");
       } else {
         alert('로그인 실패: ' + response.data.message);
       }
-
     } catch (error) {
       console.error("로그인 실패:", error);
       alert('로그인 실패');
     }
   };
 
-
-
-  // GoogleLogin 버튼의 클릭 이벤트 처리
+  // GoogleLogin 버튼의 클릭 이벤트 처리는 이전과 동일합니다.
   const handleGoogleLogin = async () => {
-    window.location.href = 'http://localhost:8389/api/users/google/login'; // 서버로 로그인 요청
+    window.location.href = 'http://localhost:8389/api/users/google/login';
   };
-
 
   return (
     <div>
