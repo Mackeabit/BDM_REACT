@@ -39,7 +39,7 @@ const MapComponent = () => {
   };
 
   return (
-    <div>
+    <div style={{ position: 'relative', zIndex: 10 }}>
       <button onClick={fetchNpcs}>
         Show NPCs
       </button>
