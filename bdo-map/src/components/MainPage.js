@@ -18,6 +18,13 @@ const MainPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(markerIcon1);
 
+  // 선택된 마커에 대한 스타일
+  const selectedStyle = {
+    border: '2px solid blue',
+    borderRadius: '5px'
+  };
+
+
   const handleLogout = () => {
     logout();
   };
@@ -66,27 +73,35 @@ const MainPage = () => {
         <button onClick={goToLogin}>로그인</button>
       )}
 
-      <Modal 
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Mark Modal"
-        style={customStyles}
-      >
-        <h2>마킹하기</h2>
-        <div>
-          <button onClick={() => setCursorToMarker(markerIcon1)}>
-              <img src={markerIcon1} alt="Marker 1" width="50" />
-          </button>
-          <button onClick={() => setCursorToMarker(markerIcon2)}>
-              <img src={markerIcon2} alt="Marker 2" width="50" />
-          </button>
-          <button onClick={() => setCursorToMarker(markerIcon3)}>
-              <img src={markerIcon3} alt="Marker 3" width="50" />
-          </button>
-        </div>
-        <button onClick={() => { closeModal(); resetCursor(); }}>닫기</button>
-      </Modal>
-
+        <Modal 
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Mark Modal"
+          style={customStyles}
+        >
+          <h2>마킹하기</h2>
+          <div>
+            <button 
+              onClick={() => setCursorToMarker(markerIcon1)}
+              style={selectedMarker === markerIcon1 ? selectedStyle : {}}
+            >
+                <img src={markerIcon1} alt="Marker 1" width="50" />
+            </button>
+            <button 
+              onClick={() => setCursorToMarker(markerIcon2)}
+              style={selectedMarker === markerIcon2 ? selectedStyle : {}}
+            >
+                <img src={markerIcon2} alt="Marker 2" width="50" />
+            </button>
+            <button 
+              onClick={() => setCursorToMarker(markerIcon3)}
+              style={selectedMarker === markerIcon3 ? selectedStyle : {}}
+            >
+                <img src={markerIcon3} alt="Marker 3" width="50" />
+            </button>
+          </div>
+          <button onClick={() => { closeModal(); resetCursor(); }}>닫기</button>
+        </Modal>
       <MapComponent />
     </div>
   );
