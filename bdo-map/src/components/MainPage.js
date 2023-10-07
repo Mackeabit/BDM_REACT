@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from './MapComponent';
-import Modal from 'react-modal';
 import markerIcon1 from '../assets/icons/npc/npc_icon.png';
 import markerIcon2 from '../assets/icons/npc/npc_icon.png';
 import markerIcon3 from '../assets/icons/npc/npc_icon.png';
 
-Modal.setAppElement('#root');
-
 const MainPage = () => {
-  console.log("MainPage component mounted");
-
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(null);  // 초기값을 null로 설정
+  const [showMarkersDropdown, setShowMarkersDropdown] = useState(false);
+  const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(null);
 
   const selectedStyle = {
     border: '2px solid blue',
@@ -31,32 +26,14 @@ const MainPage = () => {
     navigate('/login');
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    resetCursor();
-    setSelectedMarkerIndex(null);  // 선택된 마커 인덱스 초기화
+  const toggleMarkersDropdown = () => {
+    setShowMarkersDropdown(!showMarkersDropdown);
   };
 
   const setCursorToMarker = (marker, index) => {
     document.body.style.cursor = `url(${marker}) 25 25, auto`;
-    setSelectedMarkerIndex(index); // 선택된 마커의 인덱스를 상태에 저장
-  };
-
-  const resetCursor = () => {
-    document.body.style.cursor = "default";
-  };
-
-  const customStyles = {
-    content: {
-      zIndex: 1000, 
-    },
-    overlay: {
-      zIndex: 999,
-    }
+    setSelectedMarkerIndex(index);
+    setShowMarkersDropdown(false);  // 마커 선택 후 드롭다운 메뉴 닫기
   };
 
   return (
@@ -68,42 +45,41 @@ const MainPage = () => {
             Login {auth.user.name} OK
           </span>
           <button onClick={handleLogout}>로그아웃</button>
-          <button onClick={openModal}>마킹하기</button>
+          <button onClick={toggleMarkersDropdown}>마킹하기</button>
+          {showMarkersDropdown && (
+            <div style={{ 
+              position: 'absolute', 
+              top: '10%',  // 버튼 바로 아래에 위치
+              left: '30%',    // 버튼의 왼쪽 정렬
+              background: 'white', 
+              border: '1px solid gray', 
+              borderRadius: '5px', 
+              zIndex: 10000     // 필요한 경우 다른 요소 위에 나타나게 하기 위해 zIndex 값 추가 
+              }}>
+              <button 
+                onClick={() => setCursorToMarker(markerIcon1, 1)}
+                style={selectedMarkerIndex === 1 ? selectedStyle : {}}
+              >
+                <img src={markerIcon1} alt="Marker 1" width="50" />
+              </button>
+              <button 
+                onClick={() => setCursorToMarker(markerIcon2, 2)}
+                style={selectedMarkerIndex === 2 ? selectedStyle : {}}
+              >
+                <img src={markerIcon2} alt="Marker 2" width="50" />
+              </button>
+              <button 
+                onClick={() => setCursorToMarker(markerIcon3, 3)}
+                style={selectedMarkerIndex === 3 ? selectedStyle : {}}
+              >
+                <img src={markerIcon3} alt="Marker 3" width="50" />
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <button onClick={goToLogin}>로그인</button>
       )}
-
-      <Modal 
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Mark Modal"
-        style={customStyles}
-      >
-        <h2>마킹하기</h2>
-        <div>
-          <button 
-            onClick={() => setCursorToMarker(markerIcon1, 1)}
-            style={selectedMarkerIndex === 1 ? selectedStyle : {}}
-          >
-              <img src={markerIcon1} alt="Marker 1" width="50" />
-          </button>
-          <button 
-            onClick={() => setCursorToMarker(markerIcon2, 2)}
-            style={selectedMarkerIndex === 2 ? selectedStyle : {}}
-          >
-              <img src={markerIcon2} alt="Marker 2" width="50" />
-          </button>
-          <button 
-            onClick={() => setCursorToMarker(markerIcon3, 3)}
-            style={selectedMarkerIndex === 3 ? selectedStyle : {}}
-          >
-              <img src={markerIcon3} alt="Marker 3" width="50" />
-          </button>
-        </div>
-        <button onClick={closeModal}>닫기</button>
-      </Modal>
-
       <MapComponent />
     </div>
   );
