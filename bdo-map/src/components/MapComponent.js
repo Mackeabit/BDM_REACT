@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
@@ -10,7 +10,7 @@ const icon = new L.Icon({
   iconSize: [32, 32],
 });
 
-const MapComponent = () => {
+const MapComponent = ({ cursorStyle }) => {
   const centerPosition = [70, -80];
   const maxBounds = [
     [-90, -180],
@@ -19,6 +19,13 @@ const MapComponent = () => {
 
   const [npcs, setNpcs] = useState([]);
   const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    const mapRoot = document.querySelector(".leaflet-container");
+    if (mapRoot) {
+      mapRoot.style.cursor = cursorStyle;
+    }
+  }, [cursorStyle]);
 
   const fetchNpcs = async () => {
     try {

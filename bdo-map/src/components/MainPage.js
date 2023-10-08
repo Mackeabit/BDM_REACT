@@ -80,7 +80,7 @@ const MainPage = () => {
       ) : (
         <button onClick={goToLogin}>로그인</button>
       )}
-      <MapComponent />
+    <MapComponent cursorStyle={document.body.style.cursor} />
     </div>
   );
 };
