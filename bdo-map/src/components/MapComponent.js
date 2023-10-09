@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip, useMapEvent } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -45,6 +45,14 @@ const MapComponent = ({ cursorStyle }) => {
     }
   };
 
+  const MapClickHandler = () => {
+    useMapEvent('click', (e) => {
+      const { lat, lng } = e.latlng;
+      alert(`클릭한 위치의 좌표: (${lat.toFixed(4)}, ${lng.toFixed(4)})`);
+    });
+    return null; // 컴포넌트가 실제로 렌더링 되지 않게 null 반환
+  };
+
   return (
     <div style={{ position: 'relative', zIndex: 10 }}>
       <button onClick={fetchNpcs}>
@@ -67,6 +75,8 @@ const MapComponent = ({ cursorStyle }) => {
           attribution="&copy; 검은사막 지도"
           noWrap={true}
         />
+
+        <MapClickHandler />
 
         {npcs.map((npc, index) => (
           <Marker key={index} position={npc.position} icon={icon}>
