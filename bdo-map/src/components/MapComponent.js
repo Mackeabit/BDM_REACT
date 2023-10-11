@@ -39,22 +39,45 @@ const MapComponent = ({ cursorStyle }) => {
   };
 
   const Modal = ({ onClose, position }) => {
+    const [category, setCategory] = useState("");
+    const [description, setDescription] = useState("");
+
+    const saveMarker = () => {
+      axios.post('http://localhost:8389/api/locations', {
+        position,
+        category,
+        description
+      }).then(response => {
+        console.log("Saved successfully:", response);
+        onClose();
+      }).catch(error => {
+        console.error("Error saving marker:", error);
+      });
+    };
+
     return (
       <div style={modalStyle.overlay}>
         <div style={modalStyle.modal}>
           <h2>위치: ({position[0]}, {position[1]})</h2>
           <label>
             카테고리명:
-            <input type="text" />
+            <input 
+              type="text" 
+              value={category} 
+              onChange={e => setCategory(e.target.value)}
+            />
           </label>
           <br />
           <label>
             설명:
-            <textarea />
+            <textarea 
+              value={description} 
+              onChange={e => setDescription(e.target.value)}
+            />
           </label>
           <br />
           <button onClick={onClose}>닫기</button>
-          <button>저장하기</button>
+          <button onClick={saveMarker}>저장하기</button>
         </div>
       </div>
     );
