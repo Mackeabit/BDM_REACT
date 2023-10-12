@@ -43,10 +43,13 @@ const MapComponent = ({ cursorStyle }) => {
     const [description, setDescription] = useState("");
 
     const saveMarker = () => {
-      axios.post('http://localhost:8389/api/locations', {
-        position,
-        category,
-        description
+      axios.post('http://localhost:8389/api/markers', {
+        userId: 'YOUR_USER_ID_HERE', // 실제 로그인 사용자의 ID
+        categoryId: 'YOUR_CATEGORY_ID_HERE', // 선택한 카테고리의 ID
+        latitude: position[0],
+        longitude: position[1],
+        name: category,  // '카테고리명'을 마커의 'name'으로 사용
+        description: description
       }).then(response => {
         console.log("Saved successfully:", response);
         onClose();
