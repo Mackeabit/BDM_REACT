@@ -10,7 +10,7 @@ const icon = new L.Icon({
   iconSize: [32, 32],
 });
 
-const MapComponent = ({ cursorStyle }) => {
+const MapComponent = ({ cursorStyle, isAuthenticated }) => {
   const centerPosition = [70, -80];
   const maxBounds = [
     [-90, -180],
@@ -31,9 +31,14 @@ const MapComponent = ({ cursorStyle }) => {
 
   const MapClickHandler = () => {
     useMapEvent('click', (e) => {
-      const { lat, lng } = e.latlng;
-      setClickedPosition([lat.toFixed(4), lng.toFixed(4)]);
-      setShowModal(true);
+      if (isAuthenticated) {
+        const { lat, lng } = e.latlng;
+        setClickedPosition([lat.toFixed(4), lng.toFixed(4)]);
+        setShowModal(true);
+      } else {
+        // 사용자가 로그인하지 않았을 때의 처리를 추가합니다. 예를 들면 알림을 표시할 수 있습니다.
+        console.warn("로그인한 사용자만 마커를 추가할 수 있습니다.");
+      }
     });
     return null;
   };
