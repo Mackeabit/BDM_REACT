@@ -6,12 +6,38 @@ import markerIcon1 from '../assets/icons/npc/npc_icon.png';
 import markerIcon2 from '../assets/icons/npc/npc_icon.png';
 import markerIcon3 from '../assets/icons/npc/npc_icon.png';
 
+// Sidebar component
+const Sidebar = ({ isOpen }) => {
+  const sidebarStyle = {
+    width: isOpen ? '250px' : '0',
+    height: '100%',
+    background: '#333',
+    color: 'white',
+    position: 'fixed',
+    transition: '0.3s',
+    overflowX: 'hidden',
+    zIndex: 100000
+  };
+
+  return (
+    <div style={sidebarStyle}>
+      <h2>Sidebar</h2>
+      <ul>
+        <li>Home</li>
+        <li>About</li>
+        <li>Contact</li>
+      </ul>
+    </div>
+  );
+};
+
 const MainPage = () => {
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
 
   const [showMarkersDropdown, setShowMarkersDropdown] = useState(false);
   const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // Sidebar state
 
   const selectedStyle = {
     border: '2px solid blue',
@@ -33,11 +59,13 @@ const MainPage = () => {
   const setCursorToMarker = (marker, index) => {
     document.body.style.cursor = `url(${marker}) 25 25, auto`;
     setSelectedMarkerIndex(index);
-    setShowMarkersDropdown(false);  // 마커 선택 후 드롭다운 메뉴 닫기
+    setShowMarkersDropdown(false);
   };
 
   return (
     <div>
+      <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>Toggle Sidebar</button>  {/* Sidebar toggle button */}
+      <Sidebar isOpen={isSidebarOpen} />  {/* Pass the isOpen prop to Sidebar */}
       <h1>검은사막 지도</h1>
       {auth.isAuthenticated ? (
         <div>
@@ -49,12 +77,12 @@ const MainPage = () => {
           {showMarkersDropdown && (
             <div style={{ 
               position: 'absolute', 
-              top: '10%',  // 버튼 바로 아래에 위치
-              left: '30%',    // 버튼의 왼쪽 정렬
+              top: '10%',
+              left: '30%',
               background: 'white', 
               border: '1px solid gray', 
               borderRadius: '5px', 
-              zIndex: 10000     // 필요한 경우 다른 요소 위에 나타나게 하기 위해 zIndex 값 추가 
+              zIndex: 10000 
               }}>
               <button 
                 onClick={() => setCursorToMarker(markerIcon1, 1)}
@@ -80,7 +108,7 @@ const MainPage = () => {
       ) : (
         <button onClick={goToLogin}>로그인</button>
       )}
-    <MapComponent cursorStyle={document.body.style.cursor} isAuthenticated={auth.isAuthenticated} />
+      <MapComponent cursorStyle={document.body.style.cursor} isAuthenticated={auth.isAuthenticated} />
     </div>
   );
 };
