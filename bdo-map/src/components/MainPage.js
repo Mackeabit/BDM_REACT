@@ -5,6 +5,7 @@ import MapComponent from './MapComponent';
 import markerIcon1 from '../assets/icons/npc/npc_icon.png';
 import markerIcon2 from '../assets/icons/npc/npc_icon.png';
 import markerIcon3 from '../assets/icons/npc/npc_icon.png';
+import menuIcon from '../assets/icons/menuIcon.svg';
 
 // Sidebar component
 const Sidebar = ({ isOpen }) => {
@@ -62,11 +63,25 @@ const MainPage = () => {
     setShowMarkersDropdown(false);
   };
 
+  const menuIconStyle = {
+    position: 'absolute',
+    top: '10px',
+    left: isSidebarOpen ? '210px' : '10px',
+    transition: '0.3s',
+    cursor: 'pointer',
+    zIndex: 100001
+  };
+
   return (
     <div>
-      <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>Toggle Sidebar</button>  {/* Sidebar toggle button */}
-      <Sidebar isOpen={isSidebarOpen} />  {/* Pass the isOpen prop to Sidebar */}
-      <h1>검은사막 지도</h1>
+      <img 
+        src={menuIcon} 
+        alt="Menu Icon" 
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+        style={menuIconStyle}
+      />
+      <Sidebar isOpen={isSidebarOpen} />
+      <h1 style={{textAlign:'center'}}>검은사막 지도</h1>
       {auth.isAuthenticated ? (
         <div>
           <span style={{ color: 'green' }}>
