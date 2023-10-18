@@ -7,8 +7,9 @@ import markerIcon2 from '../assets/icons/npc/npc_icon.png';
 import markerIcon3 from '../assets/icons/npc/npc_icon.png';
 import menuIcon from '../assets/icons/menuIcon.svg';
 
-// Sidebar component
 const Sidebar = ({ isOpen }) => {
+  const [showExtraButtons, setShowExtraButtons] = useState(false);
+
   const sidebarStyle = {
     width: isOpen ? '250px' : '0',
     height: '100%',
@@ -20,14 +21,49 @@ const Sidebar = ({ isOpen }) => {
     zIndex: 100000
   };
 
+  const listItemStyle = {
+    cursor: 'pointer',
+    marginBottom: '10px'
+  };
+
+  const buttonStyle = {
+    background: '#222',
+    color: 'white',
+    border: '1px solid #444',
+    padding: '5px 10px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background 0.3s'
+  };
+
+  const buttonHoverStyle = {
+    background: '#444'
+  };
+
+  const buttonFadeInStyle = {
+    ...buttonStyle,
+    opacity: showExtraButtons ? 1 : 0,
+    transition: 'opacity 0.5s',
+    marginBottom: '10px'
+  };
+
   return (
     <div style={sidebarStyle}>
       <h2>Sidebar</h2>
       <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
+        <li style={listItemStyle}>Home</li>
+        <li style={listItemStyle} onClick={() => setShowExtraButtons(!showExtraButtons)}>About</li>
+        <li style={listItemStyle}>Contact</li>
       </ul>
+      <div style={{ position: 'absolute', bottom: '10px', width: '90%', left: '5%' }}>
+        {showExtraButtons && (
+          <>
+            <button style={buttonFadeInStyle} onMouseEnter={() => buttonHoverStyle} onMouseLeave={() => buttonStyle}>Button 1</button>
+            <button style={buttonFadeInStyle} onMouseEnter={() => buttonHoverStyle} onMouseLeave={() => buttonStyle}>Button 2</button>
+            <button style={buttonFadeInStyle} onMouseEnter={() => buttonHoverStyle} onMouseLeave={() => buttonStyle}>Button 3</button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
