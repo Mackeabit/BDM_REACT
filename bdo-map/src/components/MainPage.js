@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from './MapComponent';
@@ -6,6 +6,7 @@ import markerIcon1 from '../assets/icons/npc/npc_icon.png';
 import markerIcon2 from '../assets/icons/npc/npc_icon.png';
 import markerIcon3 from '../assets/icons/npc/npc_icon.png';
 import menuIcon from '../assets/icons/menuIcon.svg';
+import hisoImage from '../assets/hiso.png';
 import { motion } from 'framer-motion';
 
 const HeaderBar = ({ toggleSidebar }) => {
@@ -102,31 +103,88 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 const ConsoleWindow = ({ showConsole, toggleConsole }) => {
   const [inputCommand, setInputCommand] = useState('');
   const [consoleOutput, setConsoleOutput] = useState([]);
+  const [showCredits, setShowCredits] = useState(false);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (showConsole) {
+      inputRef.current.focus();
+    }
+  }, [showConsole]);
 
   const handleCommandSubmit = (e) => {
     e.preventDefault();
     if (inputCommand.trim() === '') return;
+
     const output = `> ${inputCommand}`;
-    setConsoleOutput(prev => [...prev, output]);
+    let newOutputs = [output];
+
+    if (inputCommand === "history") {
+      newOutputs.push("Displaying credits...");
+      setShowCredits(true);
+      setTimeout(() => setShowCredits(false), 10000); // 10 seconds duration
+    }
+
+    setConsoleOutput(prev => [...prev, ...newOutputs]);
     setInputCommand('');
   };
 
+  const consoleContainerStyle = {
+    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(50, 50, 50, 0.8)', zIndex: 100003,
+    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+    overflow: 'hidden'
+  };
+
+  const creditsBaseStyle = {
+    fontFamily: "'Open Sans', sans-serif",  // Open Sans 폰트 사용
+    fontWeight: 300,  // 라이트한 폰트 스타일
+    fontSize: '16px',
+    letterSpacing: '1px',
+    position: 'absolute',
+    top: '87%',  
+    left: '50%',
+    transform: 'translateX(-50%)',
+    transition: 'top 3s linear',
+    textAlign: 'center',
+    color: '#ECECEC',  // 연한 회색
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+    visibility: 'hidden'
+  };
+
+  const activeCreditsStyle = showCredits ? {
+    visibility: 'visible',
+    top: '10%'
+  } : {};
+
+  const combinedCreditsStyle = { ...creditsBaseStyle, ...activeCreditsStyle };
+
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-      backgroundColor: 'rgba(0, 0, 0, 0.7)', zIndex: 100003, 
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
-    }}>
+    <div style={consoleContainerStyle}>
       <div style={{
         padding: '20px', color: 'white', overflowY: 'auto'
       }}>
         {consoleOutput.map((line, index) => <div key={index}>{line}</div>)}
       </div>
+      
+      <div style={combinedCreditsStyle}>
+        <img src={hisoImage} alt="Hiso Logo" style={{ width: '100%', marginBottom: '10px' }}/>
+        <p>Made by M.C.K.</p>
+        <p>Special thanks to <strong>아페0</strong></p>
+        <p>Engineered using React & Node.js</p>
+      </div>
+
       <form onSubmit={handleCommandSubmit} style={{ padding: '10px' }}>
         <input 
+          ref={inputRef}
           type="text" value={inputCommand} onChange={(e) => setInputCommand(e.target.value)} 
           placeholder="Enter command..." 
-          style={{ width: '100%', padding: '5px', fontSize: '16px', color: '#333', backgroundColor: 'white' }}
+          style={{ 
+            width: '100%', padding: '8px', fontSize: '18px', 
+            color: 'white', backgroundColor: 'rgba(0, 0, 0, 0)', 
+            border: 'none', outline: 'none', boxSizing: 'border-box'
+          }}
         />
       </form>
     </div>
