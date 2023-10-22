@@ -9,7 +9,7 @@ import menuIcon from '../assets/icons/menuIcon.svg';
 import hisoImage from '../assets/hiso.png';
 import { motion } from 'framer-motion';
 
-const HeaderBar = ({ toggleSidebar }) => {
+const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
   const { auth } = useAuth();
   const [shadow, setShadow] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -38,6 +38,15 @@ const HeaderBar = ({ toggleSidebar }) => {
     visible: { opacity: 1, y: '0', transition: { type: 'spring', stiffness: 100, damping: 20 } }
   };
 
+  const handleLogout = () => {
+    logout();
+  };
+
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
+
   return (
     <motion.div 
       initial="hidden"
@@ -54,7 +63,14 @@ const HeaderBar = ({ toggleSidebar }) => {
         <img src={menuIcon} alt="Open Sidebar" onClick={toggleSidebar} style={{ cursor: 'pointer' }} />
       </div>
       <div>
-        {auth.isAuthenticated ? <span>Login {auth.user.name} OK</span> : null}
+        {auth.isAuthenticated ? (
+          <>
+            <span>Login {auth.user.name} OK</span>
+            <button onClick={handleLogout}>로그아웃</button>
+          </>
+        ) : (
+          <button onClick={goToLogin}>로그인</button>
+        )}
       </div>
     </motion.div>
   );
@@ -198,6 +214,7 @@ const MainPage = () => {
   const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showConsole, setShowConsole] = useState(false);
+  const [isMarkingMode, setIsMarkingMode] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -229,12 +246,18 @@ const MainPage = () => {
 
   return (
     <div>
-      <HeaderBar toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <HeaderBar 
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+        logout={logout}
+        navigate={navigate}
+        isAuthenticated={auth.isAuthenticated}
+      />
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
       <h1 style={{textAlign:'center'}}>검은사막 지도</h1>
       {auth.isAuthenticated ? (
         <div>
           <button onClick={handleLogout}>로그아웃</button>
+          <button onClick={() => setIsMarkingMode(!isMarkingMode)}>마킹하기2</button>
           <button onClick={toggleMarkersDropdown}>마킹하기</button>
           {showMarkersDropdown && (
             <div style={{ position: 'absolute', top: '10%', left: '30%', background: 'white', border: '1px solid gray', borderRadius: '5px', zIndex: 10000 }}>
@@ -253,7 +276,7 @@ const MainPage = () => {
       ) : (
         <button onClick={goToLogin}>로그인</button>
       )}
-      <MapComponent cursorStyle={document.body.style.cursor} isAuthenticated={auth.isAuthenticated} />
+      <MapComponent cursorStyle={document.body.style.cursor} isAuthenticated={auth.isAuthenticated} isMarkingMode={isMarkingMode} />
       {showConsole && <ConsoleWindow showConsole={showConsole} toggleConsole={() => setShowConsole(prev => !prev)} />}
     </div>
   );

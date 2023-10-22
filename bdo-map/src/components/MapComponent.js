@@ -10,7 +10,7 @@ const icon = new L.Icon({
   iconSize: [32, 32],
 });
 
-const MapComponent = ({ cursorStyle, isAuthenticated }) => {
+const MapComponent = ({ cursorStyle, isAuthenticated, isMarkingMode }) => {
   const centerPosition = [70, -80];
   const maxBounds = [
     [-90, -180],
@@ -31,7 +31,7 @@ const MapComponent = ({ cursorStyle, isAuthenticated }) => {
 
   const MapClickHandler = () => {
     useMapEvent('click', (e) => {
-      if (isAuthenticated) {
+      if (isAuthenticated && isMarkingMode) {
         const { lat, lng } = e.latlng;
         setClickedPosition([lat.toFixed(4), lng.toFixed(4)]);
         setShowModal(true);
