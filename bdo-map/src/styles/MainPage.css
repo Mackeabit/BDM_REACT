@@ -1,0 +1,86 @@
+/* MainPage.css */
+
+/* 공통 버튼 스타일 */
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+button:active {
+    background-color: #333;
+}
+
+/* 마킹하기 드롭다운 */
+div > button {
+    margin-right: 10px;
+}
+
+div > button:last-child {
+    margin-right: 0;
+}
+
+/* 로그인 버튼 스타일 */
+button[onClick="goToLogin"] {
+    background-color: #007bff;
+}
+
+button[onClick="goToLogin"]:hover {
+    background-color: #0056b3;
+}
+
+button[onClick="goToLogin"]:active {
+    background-color: #003980;
+}
+
+/* 로그아웃 버튼 스타일 */
+button[onClick="handleLogout"] {
+    background-color: #d9534f;
+}
+
+button[onClick="handleLogout"]:hover {
+    background-color: #c9302c;
+}
+
+button[onClick="handleLogout"]:active {
+    background-color: #a21d1d;
+}
+
+/* 마킹하기 버튼 스타일 */
+button[onClick="setIsMarkingMode"] {
+    background-color: #5cb85c;
+}
+
+button[onClick="setIsMarkingMode"]:hover {
+    background-color: #449d44;
+}
+
+button[onClick="setIsMarkingMode"]:active {
+    background-color: #307830;
+}
+
+/* Dropdown 버튼 스타일 */
+div > button > img {
+    margin: 5px;
+    transition: transform 0.3s;
+}
+
+div > button > img:hover {
+    transform: scale(1.1);
+}
+
+/* 기타 스타일 조정 */
+h1 {
+    color: white;
+    margin-top: 60px;
+}
+

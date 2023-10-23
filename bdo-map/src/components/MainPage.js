@@ -8,6 +8,8 @@ import markerIcon3 from '../assets/icons/npc/npc_icon.png';
 import menuIcon from '../assets/icons/menuIcon.svg';
 import hisoImage from '../assets/hiso.png';
 import { motion } from 'framer-motion';
+import '../styles/MainPage.css';
+
 
 const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
   const { auth } = useAuth();

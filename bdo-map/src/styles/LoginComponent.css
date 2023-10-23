@@ -1,0 +1,82 @@
+.homepage-name {
+    margin-bottom: 20px; /* 홈페이지 이름과 다른 요소와의 간격 설정 */
+    cursor: pointer;     /* 클릭 가능한 요소임을 시각적으로 표현 */
+    transition: opacity 0.3s; /* 페이드 효과를 위한 전환 설정 */
+  }
+  
+  .homepage-name:hover {
+    opacity: 0.7; /* 호버 시 약간의 페이드 효과 */
+  }
+  
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1a1a1a;
+  }
+  
+  .login-form {
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+    background-color: #2b2b2b;
+  }
+  
+  .login-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3c3c3c;
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .google-login-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #db4437;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .google-login-button:hover {
+    background-color: #b03121;
+  }
+  
+  .register-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .register-link:hover {
+    text-decoration: underline;
+  }
+  

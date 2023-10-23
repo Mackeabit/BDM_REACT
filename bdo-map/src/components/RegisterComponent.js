@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';  // React Router v6에서는 useNavigate 사용
 import './RegisterComponent.css';  // 스타일시트 불러오기
 
@@ -41,6 +42,11 @@ const RegisterComponent = () => {
 
   return (
     <div className="register-container">
+      <div className="homepage-name">
+        <Link to="/" style={{ textDecoration: 'none', color: 'white', fontSize: '24px' }}>
+          MCK
+        </Link>
+      </div>
       <input 
         type="text" 
         placeholder="Username" 
