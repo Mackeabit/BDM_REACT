@@ -1,0 +1,83 @@
+/* Sidebar.css */
+
+.sidebar {
+    width: 0;
+    top: 0%;
+    height: 100%;
+    background: #111;
+    color: #FFF;
+    position: fixed;
+    transition: 0.3s;
+    overflow-x: hidden;
+    z-index: 100000;
+    box-shadow: none;
+  }
+  
+  .sidebar.open {
+    width: 250px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .tab {
+    width: 40px;
+    height: 40px;
+    background: #333;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    border-radius: 0 8px 8px 0;
+    display: none; /* 기본적으로 탭을 숨깁니다 */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .tab:hover {
+    background: #222;
+  }
+  
+  .tab.show {
+    display: flex; /* 사이드바가 닫혀 있을 때만 탭을 표시합니다 */
+  }
+  
+  .list-item {
+    cursor: pointer;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  
+  .list-item:hover {
+    background: #222;
+    color: #FFF;
+  }
+  
+  .button {
+    background: #222;
+    color: #FFF;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .button:hover {
+    background: #333;
+    color: #FFF;
+  }
+  
+  .button-fade-in {
+    opacity: 0;
+    transition: opacity 0.5s, background 0.3s;
+  }
+  
+  .button-fade-in.visible {
+    opacity: 1;
+  }
+  

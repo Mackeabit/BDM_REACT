@@ -6,7 +6,9 @@ import markerIcon1 from '../assets/icons/npc/npc_icon.png';
 import markerIcon2 from '../assets/icons/npc/npc_icon.png';
 import markerIcon3 from '../assets/icons/npc/npc_icon.png';
 import menuIcon from '../assets/icons/menuIcon.svg';
+import myPageIcon from '../assets/icons/myPageIcon.svg';
 import hisoImage from '../assets/hiso.png';
+import Sidebar from './SideBar';
 import { motion } from 'framer-motion';
 import '../styles/MainPage.css';
 
@@ -39,6 +41,10 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
     hidden: { opacity: 0, y: '-100%' },
     visible: { opacity: 1, y: '0', transition: { type: 'spring', stiffness: 100, damping: 20 } }
   };
+  
+  const goToMyPage = () => {
+    navigate('/mypage');
+  };
 
   const handleLogout = () => {
     logout();
@@ -67,54 +73,16 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
       <div>
         {auth.isAuthenticated ? (
           <>
-            <span>Login {auth.user.name} OK</span>
-            <button onClick={handleLogout}>로그아웃</button>
+            <span onClick={goToMyPage} style={{ cursor: 'pointer'}}>{auth.user.name} 
+            <img src={myPageIcon} alt="My Page" onClick={goToMyPage} style={{ cursor: 'pointer', marginLeft: '10px' }} />
+            </span>
+            <button onClick={handleLogout}>LogOut </button>
           </>
         ) : (
           <button onClick={goToLogin}>로그인</button>
         )}
       </div>
     </motion.div>
-  );
-};
-
-const Sidebar = ({ isOpen, toggleSidebar }) => {
-  const [showExtraButtons, setShowExtraButtons] = useState(false);
-
-  const sidebarStyle = {
-    width: isOpen ? '250px' : '0', height: '100%', background: '#333',
-    color: 'white', position: 'fixed', transition: '0.3s', overflowX: 'hidden', zIndex: 100000
-  };
-
-  const listItemStyle = { cursor: 'pointer', marginBottom: '10px' };
-  const buttonStyle = {
-    background: '#222', color: 'white', border: '1px solid #444', padding: '5px 10px',
-    borderRadius: '5px', cursor: 'pointer', transition: 'background 0.3s'
-  };
-
-  const buttonFadeInStyle = { ...buttonStyle, opacity: showExtraButtons ? 1 : 0, transition: 'opacity 0.5s', marginBottom: '10px' };
-
-  return (
-    <div style={sidebarStyle}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <img src={menuIcon} alt="Close Sidebar" onClick={toggleSidebar} style={{ cursor: 'pointer', margin: '10px' }} />
-      </div>
-      <h2>Sidebar</h2>
-      <ul>
-        <li style={listItemStyle}>Home</li>
-        <li style={listItemStyle} onClick={() => setShowExtraButtons(!showExtraButtons)}>About</li>
-        <li style={listItemStyle}>Contact</li>
-      </ul>
-      <div style={{ position: 'absolute', bottom: '10px', width: '90%', left: '5%' }}>
-        {showExtraButtons && (
-          <>
-            <button style={buttonFadeInStyle}>Button 1</button>
-            <button style={buttonFadeInStyle}>Button 2</button>
-            <button style={buttonFadeInStyle}>Button 3</button>
-          </>
-        )}
-      </div>
-    </div>
   );
 };
 
