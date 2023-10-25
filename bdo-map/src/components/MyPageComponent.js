@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './SideBar';
 import './MyPageComponent.css';
 
 const MyPageComponent = () => {
-  const [expanded, setExpanded] = useState(false);  // 확장 상태를 추적
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // 사이드바 상태를 추적
+  const { auth } = useAuth();  // 로그인 상태
+  const navigate = useNavigate();  // 리다이렉트를 위한 navigate 함수
+  const [expanded, setExpanded] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
+    // 로그인하지 않은 사용자를 로그인 페이지로 리다이렉트
+    if (!auth.isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
     setTimeout(() => {
-      setExpanded(true);  // 컴포넌트가 마운트된 후 약간의 지연 후 확장
-    }, 100);  // 100ms 후에 확장됩니다. 원하는 지연 시간을 설정할 수 있습니다.
-  }, []);
+      setExpanded(true);
+    }, 100);
+  }, [auth, navigate]);
 
   return (
     <div className="container">
-    <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
       <div className={`card ${expanded ? 'expanded' : ''}`}>
         <h2 className="title">
           My Page
