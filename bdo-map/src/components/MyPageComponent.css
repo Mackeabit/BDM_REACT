@@ -1,59 +1,59 @@
 /* Container Styles */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #333;
-    color: #ECECEC;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #333;
+  color: #ECECEC;
+  margin: 0;
+  padding: 0;
 }
 
 /* Card Styles */
 .card {
-    width: 30%;  /* 초기 너비 설정 */
-    height: 20%;
-    max-width: 100%; /* max-width 제한 제거 */
-    margin-left: 15%;
-    padding: 15px; /* 초기 패딩 설정 */
-    border-radius: 10px;
-    background-color: #444;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    animation: expandCard 1s 0.3s forwards;
+  width: 30%;  /* 초기 너비 설정 */
+  height: 20%;
+  max-width: 100%; /* max-width 제한 제거 */
+  margin-left: 15%;
+  padding: 15px; /* 초기 패딩 설정 */
+  border-radius: 10px;
+  background-color: #444;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: expandCard 1s 0.3s forwards;
 }
 
 @keyframes expandCard {
-    to {
-        width: 80%;
-        height: 80%;
-        padding: 25px;
-    }
+  to {
+      width: 80%;
+      height: 80%;
+      padding: 25px;
+  }
 }
 
 /* Title Styles */
 .title {
-    position: relative;
-    border-bottom: 2px solid transparent;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+  position: relative;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .title::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: #ECECEC;
-    animation: expandBorder 0.8s forwards;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ECECEC;
+  animation: expandBorder 0.8s forwards;
 }
 
 @keyframes expandBorder {
-    to {
-        width: 100%;
-    }
+  to {
+      width: 100%;
+  }
 }

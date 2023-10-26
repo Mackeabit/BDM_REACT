@@ -1,0 +1,27 @@
+/* ProjectComponent.module.css */
+.container {
+  background-color: #1E1E1E;
+  width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+}
+
+.title {
+  color: #FFFFFF;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: #B3B3B3;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

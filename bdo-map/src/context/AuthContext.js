@@ -18,6 +18,8 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const [isAuthReady, setIsAuthReady] = useState(false); // 추가
+
   // 인증 상태 체크 함수 분리
   const checkAuthStatus = async () => {
     try {
@@ -57,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         }
       });
     }
+    setIsAuthReady(true); // 비동기 작업 완료 후 isAuthReady를 true로 설정
   };
 
   useEffect(() => {
@@ -76,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, logout, checkAuthStatus }}>
+    <AuthContext.Provider value={{ auth, isAuthReady, logout, checkAuthStatus }}>
       {children}
     </AuthContext.Provider>
   );
