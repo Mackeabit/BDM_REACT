@@ -22,7 +22,7 @@ const MyPageComponent = () => {
     setTimeout(() => {
       setExpanded(true);
     }, 100);
-  }, [auth, navigate]);
+  }, [auth, navigate, isAuthReady]);
 
   return (
     <div className="container">
@@ -32,7 +32,9 @@ const MyPageComponent = () => {
           My Page
         </h2>
         <p>Welcome to your personal page!</p>
-        <ProjectComponent 
+        <ProjectComponent
+          key="1"
+          animationDelay="1.3s"
           title="Healthy" 
           description="Project about new app of company" 
           role="Manager" 
@@ -40,23 +42,26 @@ const MyPageComponent = () => {
           progress={60} 
         />
         <ProjectComponent 
-          title="Healthy" 
+          key="2"
+          animationDelay="1.6s"
+          title="Markers" 
           description="Project about new app of company" 
           role="Manager" 
           time="1 week" 
           progress={60} 
         />
         <ProjectComponent 
-          title="Healthy" 
+          animationDelay="1.9s"
+          title="User" 
           description="Project about new app of company" 
           role="Manager" 
           time="1 week" 
           progress={60} 
         />
-        {/* 여기에 추가적으로 다른 프로젝트 컴포넌트들을 추가할 수 있습니다. */}
       </div>
     </div>
-  );
+  );  
+
 };
 
 export default MyPageComponent;

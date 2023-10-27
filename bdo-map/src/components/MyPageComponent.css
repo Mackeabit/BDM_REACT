@@ -57,3 +57,16 @@
       width: 100%;
   }
 }
+
+/* ProjectComponent Animation Styles */
+.card .project-component {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  animation-delay: 1.3s;
+}
+
+@keyframes fadeIn {
+  to {
+      opacity: 1;
+  }
+}
