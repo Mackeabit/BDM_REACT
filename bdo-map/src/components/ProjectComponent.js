@@ -4,7 +4,7 @@ import styles from './ProjectComponent.module.css';
 function ProjectComponent(props) {
   return (
     <div
-      className={`${styles.container} project-component ${props.isSelected ? styles.selected : ''}`}
+      className={`${styles.container} project-component ${props.isSelected ? 'selected' : ''}`}
       style={{ animationDelay: props.animationDelay }}
       onClick={props.onClick}
     >

@@ -9,6 +9,11 @@
   color: #ECECEC;
   margin: 0;
   padding: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+.container.reduced-width {
+  width: 70%;
 }
 
 .card {
@@ -41,7 +46,46 @@
   transform: translate(-50%, -50%);
   /* 추가 스타일 */
 }
+/* Add pointer cursor to each ProjectComponent */
+.project-list .project-component {
+  cursor: pointer;
+}
+.project-component.selected {
+  border: 2px solid #FFD700;  /* Gold color for better visibility in dark theme */
+}
 
+/* Add pointer cursor to each ProjectComponent in outside container as well */
+.project-outside-container .project-component {
+  cursor: pointer;
+}
+
+/* Style for moving the project list to the right */
+.project-list.move-right {
+  margin-left: 40%;  /* adjust as needed */
+}
+/* MyPageComponent.css */
+
+.project-outside-container.entering,
+.project-outside-container.leaving-to {
+  position: absolute;
+  top: 0;
+  right: -30%;  /* start from outside of the view */
+  width: 30%;
+  height: 100%;
+  overflow-y: auto;
+  transition: right 0.5s ease-in-out;
+}
+
+.project-outside-container.entering-to,
+.project-outside-container.leaving {
+  position: absolute;
+  top: 0;
+  right: 0;  /* final position */
+  width: 30%;
+  height: 100%;
+  overflow-y: auto;
+  transition: right 0.5s ease-in-out;
+}
 
 @keyframes expandCard {
   to {
