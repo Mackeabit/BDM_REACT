@@ -50,6 +50,7 @@
 .project-list .project-component {
   cursor: pointer;
 }
+
 .project-component.selected {
   border: 2px solid #FFD700;  /* Gold color for better visibility in dark theme */
 }
@@ -57,6 +58,8 @@
 /* Add pointer cursor to each ProjectComponent in outside container as well */
 .project-outside-container .project-component {
   cursor: pointer;
+  width: 60%;
+  height: 15%;
 }
 
 /* Style for moving the project list to the right */
@@ -130,5 +133,18 @@
 @keyframes fadeIn {
   to {
       opacity: 1;
+  }
+}
+
+/* 1920 x 1080 해상도 아래일 때만 적용 */
+@media (max-width: 1280px) {
+  .project-list .project-component {
+    width: 30%;
+  }
+}
+
+@media (max-width: 1475px){
+  .project-outside-container .project-component{
+    width: 70%;
   }
 }
