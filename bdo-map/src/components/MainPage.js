@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import '../styles/MainPage.css';
 
 
-const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
+const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated, isMarkingMode, setIsMarkingMode, toggleMarkersDropdown, showMarkersDropdown }) => {
   const { auth } = useAuth();
   const [shadow, setShadow] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -50,6 +50,10 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
     logout();
   };
 
+  const handleMarkingMode = () => {
+    setIsMarkingMode(!isMarkingMode);
+  };
+
   const goToLogin = () => {
     navigate('/login');
   };
@@ -73,10 +77,11 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
       <div>
         {auth.isAuthenticated ? (
           <>
-            <span onClick={goToMyPage} style={{ cursor: 'pointer'}}>{auth.user.name} 
+            <span onClick={goToMyPage} style={{ cursor: 'pointer' }}>{auth.user.name}</span>
             <img src={myPageIcon} alt="My Page" onClick={goToMyPage} style={{ cursor: 'pointer', marginLeft: '10px' }} />
-            </span>
-            <button onClick={handleLogout}>LogOut </button>
+            <button onClick={handleLogout}>LogOut</button>
+            <button onClick={handleMarkingMode}>{isMarkingMode ? '마킹취소' : '마킹하기'}</button>
+            <button onClick={toggleMarkersDropdown}>{showMarkersDropdown ? '마커취소' : '마커선택'}</button>
           </>
         ) : (
           <button onClick={goToLogin}>로그인</button>
@@ -221,6 +226,10 @@ const MainPage = () => {
         logout={logout}
         navigate={navigate}
         isAuthenticated={auth.isAuthenticated}
+        isMarkingMode={isMarkingMode}
+        setIsMarkingMode={setIsMarkingMode}
+        toggleMarkersDropdown={toggleMarkersDropdown}
+        showMarkersDropdown={showMarkersDropdown}
       />
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
       <h1 style={{textAlign:'center'}}>검은사막 지도</h1>
