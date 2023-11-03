@@ -79,12 +79,12 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated, isMarking
           <>
             <span onClick={goToMyPage} style={{ cursor: 'pointer' }}>{auth.user.name}</span>
             <img src={myPageIcon} alt="My Page" onClick={goToMyPage} style={{ cursor: 'pointer', marginLeft: '10px' }} />
-            <button onClick={handleLogout}>LogOut</button>
-            <button onClick={handleMarkingMode}>{isMarkingMode ? '마킹취소' : '마킹하기'}</button>
-            <button onClick={toggleMarkersDropdown}>{showMarkersDropdown ? '마커취소' : '마커선택'}</button>
+            <span onClick={handleLogout}>LogOut</span>
+            <span onClick={handleMarkingMode}>{isMarkingMode ? '마킹취소' : '마킹하기'}</span>
+            <span onClick={toggleMarkersDropdown}>{showMarkersDropdown ? '마커취소' : '마커선택'}</span>
           </>
         ) : (
-          <button onClick={goToLogin}>로그인</button>
+          <span onClick={goToLogin}>로그인</span>
         )}
       </div>
     </motion.div>
@@ -235,9 +235,6 @@ const MainPage = () => {
       <h1 style={{textAlign:'center'}}>검은사막 지도</h1>
       {auth.isAuthenticated ? (
         <div>
-          <button onClick={handleLogout}>로그아웃</button>
-          <button onClick={() => setIsMarkingMode(!isMarkingMode)}>마킹하기2</button>
-          <button onClick={toggleMarkersDropdown}>마킹하기</button>
           {showMarkersDropdown && (
             <div style={{ position: 'absolute', top: '10%', left: '30%', background: 'white', border: '1px solid gray', borderRadius: '5px', zIndex: 10000 }}>
               <button onClick={() => setCursorToMarker(markerIcon1, 1)} style={selectedMarkerIndex === 1 ? { border: '2px solid blue', borderRadius: '5px' } : {}}>

@@ -1,3 +1,4 @@
+// HeaderBar.js
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +47,6 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
       navigate('/login');
     };
   
-  
     return (
       <motion.div 
         initial="hidden"
@@ -59,25 +59,22 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated }) => {
           borderBottom: '1px solid #444', color: 'white', borderRadius: '10px',
           boxShadow: shadow ? '0px 4px 20px rgba(255, 255, 255, 0.8)' : 'none'
         }}>
-        <div>
-          <img src={menuIcon} alt="Open Sidebar" onClick={toggleSidebar} style={{ cursor: 'pointer' }} />
+        <div onClick={toggleSidebar} style={{ cursor: 'pointer' }}>
+          <img src={menuIcon} alt="Open Sidebar" />
         </div>
         <div>
           {auth.isAuthenticated ? (
             <>
-              <span onClick={goToMyPage} style={{ cursor: 'pointer'}}>{auth.user.name} 
+              <span onClick={goToMyPage} style={{ cursor: 'pointer'}}>{auth.user.name}</span>
               <img src={myPageIcon} alt="My Page" onClick={goToMyPage} style={{ cursor: 'pointer', marginLeft: '10px' }} />
-              </span>
-              <button onClick={handleLogout}>LogOut </button>
+              <span onClick={handleLogout} style={{ cursor: 'pointer', marginLeft: '10px' }}>로그아웃</span>
             </>
           ) : (
-            <button onClick={goToLogin}>로그인</button>
+            <span onClick={goToLogin} style={{ cursor: 'pointer' }}>로그인</span>
           )}
         </div>
       </motion.div>
     );
-  };
-  
-
+};
 
 export default HeaderBar;
