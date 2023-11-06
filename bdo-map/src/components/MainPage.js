@@ -19,6 +19,14 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated, isMarking
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isTransparent, setIsTransparent] = useState(false);
 
+  const textStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%', // 텍스트가 전체 너비에 걸쳐 분포하도록 설정
+    cursor: 'pointer'
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -74,7 +82,7 @@ const HeaderBar = ({ toggleSidebar, logout, navigate, isAuthenticated, isMarking
       <div>
         <img src={menuIcon} alt="Open Sidebar" onClick={toggleSidebar} style={{ cursor: 'pointer' }} />
       </div>
-      <div>
+      <div style={textStyle}>
         {auth.isAuthenticated ? (
           <>
             <span onClick={goToMyPage} style={{ cursor: 'pointer' }}>{auth.user.name}</span>
